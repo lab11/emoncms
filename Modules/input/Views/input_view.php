@@ -101,12 +101,13 @@
   function updaterStart(func, interval){
     clearInterval(updater);
     updater = null;
-    if (interval > 0) updater = setInterval(func, interval);
+//    update();
+    if (interval > 0) updater = setTimeout(func, interval);
   }
-  updaterStart(update, 10000);
+  //updaterStart(update, 10000);
 
   $("#table").bind("onEdit", function(e){
-    updaterStart(update, 0);
+    //updaterStart(update, 0);
   });
 
   $("#table").bind("onSave", function(e,id,fields_to_update){
@@ -114,7 +115,7 @@
   });
 
   $("#table").bind("onResume", function(e){
-    updaterStart(update, 10000);
+    //updaterStart(update, 10000);
   });
 
   $("#table").bind("onDelete", function(e,id,row){
@@ -123,7 +124,7 @@
       // delete now if has no values and updated +15m
       input.remove(id);
       table.remove(row);
-      update();
+      //update();
     } else {
       $('#myModal').modal('show');
       $('#myModal').attr('the_id',id);
@@ -136,7 +137,7 @@
     var row = $('#myModal').attr('the_row');
     input.remove(id);
     table.remove(row);
-    update();
+    //update();
     $('#myModal').modal('hide');
   });
   

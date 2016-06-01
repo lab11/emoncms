@@ -247,6 +247,21 @@ function input_controller()
                             $dbinputs[$nodeid][$name] = true;
                             $dbinputs[$nodeid][$name] = array('id'=>$inputid, 'processList'=>'');
                             $input->set_timevalue($dbinputs[$nodeid][$name]['id'],$time,$value);
+
+                            // We also want to create a feed to store this into
+                            $result = $feed->create($session['userid'],
+                                               "Node ".$nodeid,
+					       "node:".$nodeid.":".$name,
+                                               1,
+					       6,
+					       array("interval"=>10));
+			    if ($result['success']) {
+			        $feedid = $result['feedid'];
+				$input->set_processlist($inputid, '1:'.$feedid);
+			    }
+
+
+
                         } else {
                             $input->set_timevalue($dbinputs[$nodeid][$name]['id'],$time,$value);
                             if ($dbinputs[$nodeid][$name]['processList']) $tmp[] = array('value'=>$value,'processList'=>$dbinputs[$nodeid][$name]['processList'],'opt'=>array('sourcetype' => "INPUT",'sourceid'=>$dbinputs[$nodeid][$name]['id']));
